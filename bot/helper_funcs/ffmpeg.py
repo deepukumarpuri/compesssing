@@ -31,7 +31,7 @@ from bot import (
 async def convert_video(video_file, output_directory, total_time, bot, message, target_percentage, isAuto, bug):
     # https://stackoverflow.com/a/13891070/4723940
     out_put_file_name = output_directory + \
-        "/" + str(round(time.time())) + ".mp4"
+        "/" + str(round(time.time())) + ".mkv"
     progress = output_directory + "/" + "progress.txt"
     with open(progress, 'w') as f:
       pass
@@ -48,9 +48,16 @@ async def convert_video(video_file, output_directory, total_time, bot, message, 
       "-c:v", 
       "libx265",
       "-preset", 
-      "slow",
+      "medium",
       "-crf", 
       "26",
+      "-profile",
+      "main10", 
+      "-output-depth",
+      "10",
+      "-x265-params", 
+      "limit-sao=1:deblock=1,1:bframes=8:psy-rd=1.5:psy-rdoq=2:aq-mode=3",
+      "-pix_fmt yuv420p10le", 
       "-c:a",
       "copy",
       out_put_file_name
